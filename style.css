@@ -1,0 +1,245 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Cantarell&family=Inconsolata:wght@400;700&family=Ubuntu:wght@400;500;700&display=swap');
+/* resets */
+html {
+    box-sizing: border-box;
+    overflow-y: scroll;
+    font-family: Ubuntu, Cantarell, helvetica neue, sans-serif;
+    font-size: 95%;
+}
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit; /* all must inherit border-box */
+}
+
+
+#test-div{
+    width: 5vw;
+    height: 5vh;
+    /* margin: auto; */
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    background-color: brown;
+}
+
+
+/* variables to change dimensions all over */
+:root{
+    --dice-width: 120;
+}
+
+/* main content of the web page */
+#main{
+    display: flex;
+    /* flex-direction: row; */
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+#scene{
+    /* height: 80vh; */
+    min-height: 500px;
+    width: 60%;
+    min-width: 200px;
+    margin: 0 auto;
+    margin-top: 6vh;
+    position: relative;
+
+    display: flex;
+    /* justify-content: space-around; */
+    /* justify-content: space-between; */
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    
+    border: 1px solid blue;
+}
+
+#win-lose-text{
+    min-height: 500px;
+    width: 100%;
+    min-width: 200px;
+    top: 0px;
+    left: 0px;
+    margin: 0;
+    position: absolute;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+
+    user-select: none;
+    font-size: 3.5rem;
+    backdrop-filter: blur(2px);
+
+    text-shadow: purple 1px 0 10px;
+    /* text-shadow: #FC0 1px 0 10px; */
+    /* text-shadow: red 1px 0 10px; */
+
+    border: 1px solid purple;
+}
+
+#win-lose-text span{
+    font-size: 2rem;
+    width: fit-content;
+    align-self: center;
+    cursor: pointer;
+    justify-self: flex-end;
+    /* padding: 10px; */
+    /* background-image: linear-gradient(to bottom,darkred,white 20% 80%,darkred); */
+    animation: fadeIn 1s infinite alternate;
+    transition: all 0.1s;
+}
+#win-lose-text span:hover{
+    text-decoration: underline 0.1em ;
+}
+
+
+#title-text{
+    display: inline-block;
+    user-select: none;
+    text-align: center;
+    margin-top: 5vh;
+    width: 100%;
+    height: fit-content;
+
+    border: 1px solid green;
+}
+
+
+/* allow to restart the game */
+/* #restart-game{
+    display: inline-block;
+    animation: fadeIn 1s infinite alternate;
+    transition: all 0.1s;
+}
+#restart-game:hover{
+    text-decoration: underline 0.1em ;
+} */
+
+/* switch between 1 players and two players */
+#select-mode {
+    display: inline-block;
+    /* text-decoration: ; */
+    animation: fadeIn 1s infinite alternate;
+}
+#select-mode:hover{
+    text-decoration: underline 0.1em ;
+}
+
+@keyframes fadeIn { 
+    from { opacity: 0.1; } 
+}
+
+
+/* has the score text, dice box, and the roll button, also has the 'player' attribute  */
+/* i want it to be a frosty glass panel .. maybe with shadow for floating effect? */
+.game-scene {
+    width: 40%;
+    /* height: 60%; */
+    height: 50vh;
+    min-width: 188px;
+    min-height: 300px;
+    margin-top: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-around; */
+    /* justify-content: space-between; */
+    justify-content: space-evenly;
+
+    border: 1px solid purple;
+}
+
+
+#divider{
+    width: 10px;
+}
+
+@media (max-width: 665px) {
+    #scene{
+        flex-direction: column;
+        justify-content: space-evenly;
+        flex-wrap:nowrap;
+        align-items: center;
+    }
+    #title-text{
+        max-width: 274px;
+    }
+    #divider{
+        display: none;
+    }
+}
+    
+
+.score-text{
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    font-size: large;
+    align-self: center;
+}
+.score-text::before{
+    content: "Player #" attr(player) " = "; 
+}
+.score-text::after{
+    content: " pts.";
+}
+
+.roll-dice {
+    width: calc( var(--dice-width,60)*1px + (var(--dice-width,60))*1/6*2*1px + 10px );
+    height: 3em;
+    
+}
+
+
+/* holds the dice, nice border */
+.dice-box {
+    display: inline-block;
+    padding: calc( (var(--dice-width,60))*1/6*1px);
+    border: thick double #ccc;
+    background-color: whitesmoke;
+}
+
+/* the dice that rolls and sets to a value (via js on animation and background-position) */
+.dice {
+    width: calc(var(--dice-width,60)*1px);
+    height: calc(var(--dice-width,60)*1px);
+    background-image: url('/images/dice-sprite.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 15px;
+    
+    /* background-position-x: calc(var(--dice-width,60)*-2px );; */
+    background-position-x: calc(var(--dice-width,60) * 0 * -1px );
+
+    /* border: 1px solid black; */
+    animation: 2.5s linear 100ms infinite dice-slider;
+
+    /* transition: all blur 0.3s; */
+    /* animation: dice-face .1s; */
+    /* animation: fadeIn 1s infinite alternate; */
+    /* animation-play-state: paused; */
+    /* animation-play-state: running; */
+}
+
+/* finally, looks like a real dice roll :: animation: 1.5s linear infinite alternate dice-slider; */
+@keyframes dice-slider{
+    0%  { 
+        background-position-x: -0px;  
+        transform: rotate(0turn);  }
+    50% { 
+        background-position-x: calc(var(--dice-width,60)*-5px); 
+        transform: rotate(.5turn); 
+    }
+    100%{ background-position-x: -0px;  
+        transform: rotate(1turn);  
+    }
+}
