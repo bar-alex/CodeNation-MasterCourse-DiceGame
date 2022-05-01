@@ -12,6 +12,7 @@ const vars = {
     wait_winlose_anim: 2000,    // wait untill dice anim starts behind win/lose screen
     anim_blur_dur: 300,         // how long to keep it blurred while changing to dice face
 
+    sfx_sound: true,            // sound on / off
     players: 1,                 // number of players in the game
     player_turn: 1,             // which player is next
     rolling: false,             // block dblclick events while rolling
@@ -22,7 +23,9 @@ const vars = {
     text_shadow_win: '#FC0 1px 0 10px',
     text_shadow_lose: 'red 1px 0 10px',
     text_shadow_greet: 'green 1px 0 10px',
-    score_gradient: 'linear-gradient(.25turn, #FF724C, %proc%%, rgba(255, 255, 255, 0.100))',
+    score_gradient: 'linear-gradient(.25turn,white %proc1%%,black %proc2%%)',
+    // score_gradient: 'linear-gradient(.25turn,black %proc1%%,white %proc2%%)',
+    // score_gradient: 'linear-gradient(.25turn, #FF724C, %proc%%, rgba(255, 255, 255, 0.100))',
     // score_gradient: 'linear-gradient(.25turn, #FF724C, %proc%%, white)',
     //score_gradient: 'linear-gradient(.25turn, lightskyblue, %proc%%, white)',
     // restart_span: 'linear-gradient(to bottom,darkred,white 20% 80%,darkred)',   // for backgroundImage
@@ -32,19 +35,22 @@ const totals = {
     1: 0,           // player 1
     2: 0,           // player 2
 };
-// will hold the timeout id
-let timeoutSink = 0; 
+// will hold the timeout id 
+//let timeoutSink = 0; 
+let timeoutSink = []; 
 
 // roll dice buttons
-// const spanRestartGame                   = document.getElementById('restart-game');      // the restart game span
-const spanRestartGame                   = document.querySelector('#win-lose-text span');      // the restart game span
-const gameWinLose                       = document.getElementById('win-lose-text');     // the win lose text div
-const sectionDivider                    = document.getElementById("divider");           // divider between game scenes
-const [gameSceneOne, gameSceneTwo]      = document.querySelectorAll(".game-scene[player]");
-const [scoreTextOne, scoreTextTwo]      = document.querySelectorAll('.score-text');     // the score text
-const [diceOne, diceTwo]                = document.querySelectorAll('.dice');           // the dices - run animation on these
-const [btnRollDiceOne, btnRollDiceTwo]  = document.querySelectorAll('.roll-dice');      // the buttons
-const spanSelectMode                    = document.getElementById("select-mode");           // divider between game scenes
+// const spanRestartGame                   = document.getElementById('restart-game');       // the restart game span
+const mainScene                         = document.getElementById('scene');
+const spanRestartGame                   = document.querySelector('#win-lose-text span');    // the restart game span
+const gameWinLose                       = document.getElementById('win-lose-text');         // the win lose text div
+const sectionDivider                    = document.getElementById('divider');               //  divider between game scenes
+const [gameSceneOne, gameSceneTwo]      = document.querySelectorAll('.game-scene[player]');
+const [scoreTextOne, scoreTextTwo]      = document.querySelectorAll('.score-text');         // the score text
+const [diceOne, diceTwo]                = document.querySelectorAll('.dice');               // the dices - run animation on these
+const [btnRollDiceOne, btnRollDiceTwo]  = document.querySelectorAll('.roll-dice');          // the buttons
+const spanSelectMode                    = document.getElementById('select-mode');           // divider between game scenes
+const spanSfxSound                      = document.querySelector('#sound-control > span')   // the span that holds the audio icon 
 
 const diceSound  = new Audio('/assets/dice-sound.wav');
 const cheerSound = new Audio('/assets/win-sound.mp3');
@@ -57,17 +63,25 @@ const diceRoll = (sides = 6) => Math.ceil(Math.random()*(sides));  // lowest is 
 // work on the scores for both players
 const clearTotals   = () => [ totals[1], totals[2] ] = [ 0, 0 ];
 const addToTotal    = (value,player=1) => totals[player] += value;
+
 const showScore     = (player=1) => {
     if(player==1){
         scoreTextOne.textContent = totals[1];
         let calcProc = Math.ceil( totals[1] * 5 );
         // fill gauge the closer you get to max points
-        scoreTextOne.style.backgroundImage = vars.score_gradient.replace('%proc%',calcProc);
+        scoreTextOne.style.backgroundImage = 
+            vars.score_gradient.
+            replace('%proc1%',calcProc).
+            replace('%proc2%',calcProc==0?0:calcProc+10);
     } else {
         scoreTextTwo.textContent = totals[2];
         let calcProc = Math.ceil( totals[1] * 5 );
         // fill backwards
-        scoreTextTwo.style.backgroundImage = vars.score_gradient.replace('%proc%',calcProc).replace('.25turn','-.25turn');
+        scoreTextTwo.style.backgroundImage = 
+            vars.score_gradient.
+            replace('%proc1%',calcProc).
+            replace('%proc2%',calcProc==0?0:calcProc+10);
+            // replace('.25turn','-.25turn');
     }
 };
 
@@ -88,7 +102,16 @@ const diceSetFace   = (value, player=1) => {
     },vars.anim_blur_dur);
 };
 
-const playSound = (soundObj) => { timeoutSink = setTimeout( ()=>{soundObj.play(); soundObj.currentTime=0;},300); };
+const showSoundIcon = () => spanSfxSound.textContent = (vars.sfx_sound ? 'volume_up' : 'volume_off');
+const toggleSound = () => { vars.sfx_sound = !vars.sfx_sound; showSoundIcon(); };
+
+const playSound = (soundObj) => {
+    if(vars.sfx_sound) 
+        timeoutSink[timeoutSink.length] = setTimeout( ()=>{
+            soundObj.play(); 
+            soundObj.currentTime=0;
+        },300); 
+};
 
 const hideSceneTwo = () => {
     gameSceneTwo.style.display = 'none';
@@ -131,7 +154,9 @@ const showGreetScreen = () => {
 const gameRestart = () => {
     
     // clear pending timeout if any
-    if(timeoutSink != undefined) clearTimeout(timeoutSink);
+    //if(timeoutSink != undefined) clearTimeout(timeoutSink);
+    timeoutSink.forEach( tn => clearTimeout(tn) );
+    timeoutSink = [];
 
     hideWinLoseScreen();
 
@@ -158,7 +183,7 @@ const gameRestart = () => {
 // game is won - print message and alow of restart
 const gameWin = (player) => {
     // animate the dices after 2 second
-    timeoutSink = setTimeout(()=>{
+    timeoutSink[timeoutSink.length] = setTimeout(()=>{
         diceAnimate(1);
         diceAnimate(2);
     },vars.wait_winlose_anim);
@@ -172,7 +197,7 @@ const gameWin = (player) => {
 // game is lost - print message and alow for restart
 const gameLose = (player) => {
     // animate the dices after 2 second
-    timeoutSink = setTimeout(()=>{
+    timeoutSink[timeoutSink.length] = setTimeout(()=>{
         diceAnimate(1);
         diceAnimate(2);
     },vars.wait_winlose_anim);
@@ -218,7 +243,7 @@ const gameRollDice = (evt) => {
     vars.rolling = true;
 
     // once the timer ends, 
-    timeoutSink = setTimeout(() => {
+    timeoutSink[timeoutSink.length] = setTimeout(() => {
         // set the dice face
         diceSetFace(diceValue,player);
 
@@ -250,7 +275,7 @@ gameRestart();
 // show the greeting
 showGreetScreen();
 // have an animation behind
-timeoutSink = setTimeout( diceAnimate, vars.wait_winlose_anim )
+timeoutSink[timeoutSink.length] = setTimeout( diceAnimate, vars.wait_winlose_anim );
 
 // document.getElementById('restart-game').addEventListener('click', () => gameRestart() );
 spanRestartGame.addEventListener('click', () => gameRestart() );
@@ -270,6 +295,8 @@ btnRollDiceTwo.addEventListener('click', gameRollDice );
 // dice themselves
 diceOne.addEventListener('dblclick', gameRollDice );
 diceTwo.addEventListener('dblclick', gameRollDice );
+
+spanSfxSound.addEventListener('click', toggleSound );
 
 // spanSelectMode.addEventListener('click', () => {
 //     vars.players = ( vars.players==1 ? 2 : 1 );

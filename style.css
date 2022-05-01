@@ -16,6 +16,16 @@ html {
 }
 
 
+/* for the variable google font */
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+}
+
+
 #test-div{
     width: 5vw;
     height: 5vh;
@@ -64,30 +74,11 @@ body{
     flex-wrap: wrap;
     align-items: flex-start;
     
-    background-color: hsla(36, 100%, 90%, 0.2);
+    background-color: rgba(255, 235, 204, 0.2);
     border-radius: 5px;
     /* border: 1px solid blue; */
 
 }
-
-#sound-control{
-    position: absolute;
-    bottom: 30px;
-    right: 60px;
-    width: fit-content;
-    height: fit-content;
-    cursor: pointer;
-
-    font-weight: bold;
-    /* height: fit-content; */
-    /* background-image: url('/assets/sound-on.svg'); */
-    /* animation: fadeIn 1s infinite alternate; */
-}
-#sound-control img{
-    display: none;
-    
-}
-
 
 #win-lose-text{
     min-height: 500px;
@@ -106,7 +97,7 @@ body{
 
     user-select: none;
     font-size: 3.5rem;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px) grayscale(30);
 
     text-shadow: purple 1px 0 10px;
     /* text-shadow: #FC0 1px 0 10px; */
@@ -154,6 +145,21 @@ body{
 
 @keyframes fadeIn { 
     from { opacity: 0.1; } 
+}
+
+
+#sound-control{
+    position: absolute;
+    bottom: 30px;
+    right: 60px;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    text-shadow: whitesmoke 1px 0 10px;
+    animation: fadeIn 1s infinite alternate;
+}
+#sound-control span:hover{
+    text-decoration: underline 0.1em ;
 }
 
 
@@ -209,6 +215,15 @@ body{
     letter-spacing: 0.05em;
     font-size: large;
     align-self: center;
+    /* font-weight: bold; */
+    /* text-shadow: whitesmoke 2px 0 10px ; */
+
+    background-clip: content-box ;
+    -webkit-background-clip: text;  /* looks like it's required */
+    color: transparent;
+    /* -webkit-text-fill-color: transparent */
+    /* background-image: linear-gradient(.25turn,black 20%,white 30%);  */
+
     /* text-shadow: whitesmoke 1px 0 10px; */
     /* background-image: linear-gradient(.25turn,lightcoral,10%,white); */
     /* background-image: linear-gradient(.25turn,#FC0,100%,white);  */
@@ -227,9 +242,14 @@ body{
 
 
 .roll-dice {
-    width: calc( var(--dice-width,60)*1px + (var(--dice-width,60))*1/6*2*1px + 10px );
+    width: calc( var(--dice-width,60)*1px + (var(--dice-width,60))*1/7*2*1px + 10px );
     height: 3em;
-    
+    background-color: rgba(245, 245, 245, 0.300);
+    /* border: 1px solid rgba(255,255,255,.7); */
+    border-color: rgba(255,255,255,.7);
+    border-width: 1px;
+    border-radius: 5px;
+    box-shadow: 0 0 1rem 0 rgba(0,0,0,.3);
 }
 
 
