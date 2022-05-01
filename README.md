@@ -10,7 +10,7 @@ Here's some of the stuff I got working in this project:
 
 * Frosty glass effect
 * Can switch between one and two player mode
-* Greeting / Winning / Loosing screens
+* Greeting / Winning / Losing screens
 * Sounds for dice roll, winning, losing screens, turn the sound on / off
 * Score text with color filler effect on the text itself
 * Dice with sprite animation and some cubic-bezier based rotation thrown in to create a .. dice roll simulation
