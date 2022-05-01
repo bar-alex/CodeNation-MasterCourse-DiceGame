@@ -32,6 +32,13 @@ html {
     --dice-width: 120;
 }
 
+body{
+    /* background-color: orange; */
+    background: fixed no-repeat url("/assets/background.png");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 /* main content of the web page */
 #main{
     display: flex;
@@ -57,8 +64,30 @@ html {
     flex-wrap: wrap;
     align-items: flex-start;
     
-    border: 1px solid blue;
+    background-color: hsla(36, 100%, 90%, 0.2);
+    border-radius: 5px;
+    /* border: 1px solid blue; */
+
 }
+
+#sound-control{
+    position: absolute;
+    bottom: 30px;
+    right: 60px;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+
+    font-weight: bold;
+    /* height: fit-content; */
+    /* background-image: url('/assets/sound-on.svg'); */
+    /* animation: fadeIn 1s infinite alternate; */
+}
+#sound-control img{
+    display: none;
+    
+}
+
 
 #win-lose-text{
     min-height: 500px;
@@ -82,8 +111,8 @@ html {
     text-shadow: purple 1px 0 10px;
     /* text-shadow: #FC0 1px 0 10px; */
     /* text-shadow: red 1px 0 10px; */
-
-    border: 1px solid purple;
+    
+    /* border: 1px solid purple; */
 }
 
 #win-lose-text span{
@@ -109,20 +138,9 @@ html {
     margin-top: 5vh;
     width: 100%;
     height: fit-content;
-
-    border: 1px solid green;
+    text-shadow: whitesmoke 1px 0 10px;
+    /* border: 1px solid green; */
 }
-
-
-/* allow to restart the game */
-/* #restart-game{
-    display: inline-block;
-    animation: fadeIn 1s infinite alternate;
-    transition: all 0.1s;
-}
-#restart-game:hover{
-    text-decoration: underline 0.1em ;
-} */
 
 /* switch between 1 players and two players */
 #select-mode {
@@ -156,12 +174,16 @@ html {
     /* justify-content: space-between; */
     justify-content: space-evenly;
 
-    border: 1px solid purple;
+    border-radius: 5px;
+    /* border: 1px solid rgba(255, 255, 255,.7); */
+    /* border: 1px solid purple; */
 }
 
 
 #divider{
-    width: 10px;
+    width: 0px;
+    height: 50vh;
+    border-right: 1px solid rgba(255, 255, 255,.5);
 }
 
 @media (max-width: 665px) {
@@ -176,22 +198,33 @@ html {
     }
     #divider{
         display: none;
+        height: 0px;
     }
 }
     
 
 .score-text{
+    user-select: none;
     font-weight: bold;
     letter-spacing: 0.05em;
     font-size: large;
     align-self: center;
+    /* text-shadow: whitesmoke 1px 0 10px; */
+    /* background-image: linear-gradient(.25turn,lightcoral,10%,white); */
+    /* background-image: linear-gradient(.25turn,#FC0,100%,white);  */
+    /* background-image: linear-gradient(.25turn,lightskyblue, 30% ,white);  */
+    /* background-image: linear-gradient(.25turn,lightskyblue, 30% ,rgba(255, 255, 255, 0)); */
+    /* border: 1px solid lightskyblue; */
 }
 .score-text::before{
     content: "Player #" attr(player) " = "; 
+    /* text-shadow: whitesmoke 1px 0 10px; */
 }
 .score-text::after{
     content: " pts.";
+    /* text-shadow: whitesmoke 1px 0 10px; */
 }
+
 
 .roll-dice {
     width: calc( var(--dice-width,60)*1px + (var(--dice-width,60))*1/6*2*1px + 10px );
@@ -204,15 +237,16 @@ html {
 .dice-box {
     display: inline-block;
     padding: calc( (var(--dice-width,60))*1/6*1px);
-    border: thick double #ccc;
-    background-color: whitesmoke;
+    /* border: thick double #ccc; */
+    background-color: rgba(245, 245, 245, 0.300);
+    border-radius: 5px;
 }
 
 /* the dice that rolls and sets to a value (via js on animation and background-position) */
 .dice {
     width: calc(var(--dice-width,60)*1px);
     height: calc(var(--dice-width,60)*1px);
-    background-image: url('/images/dice-sprite.png');
+    background-image: url('/assets/dice-sprite.png');
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 15px;
@@ -237,9 +271,26 @@ html {
         transform: rotate(0turn);  }
     50% { 
         background-position-x: calc(var(--dice-width,60)*-5px); 
-        transform: rotate(.5turn); 
+        transform: rotate(-.5turn); 
     }
     100%{ background-position-x: -0px;  
-        transform: rotate(1turn);  
+        transform: rotate(.5turn);  
     }
+}
+
+
+.glass-10 {
+    border: 1px solid rgba(255,255,255,.7);
+    box-shadow: 0 0 1rem 0 rgba(0,0,0,.3);
+    backdrop-filter: blur(10px);
+}
+
+.glass-30 {
+    border: 1px solid rgba(255,255,255,.7);
+    box-shadow: 0 0 1rem 0 rgba(0,0,0,.3);
+    backdrop-filter: blur(10px);
+}
+
+.no-border {
+    border: none;
 }

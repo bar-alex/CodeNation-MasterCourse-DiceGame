@@ -6,34 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CN Project: Dice Game</title>
     <link rel="stylesheet" href="style.css">
+    <!-- <script src="https://kit.fontawesome.com/20c4661061.js" crossorigin="anonymous"></script> -->
 </head>
 <body>
 
-    <!-- <div id="test-div"></div> -->
-
     <main>
 
-
         <!-- the scene of the game -->
-        <div id="scene">
+        <div id="scene" class="glass-30">
 
-            <div id="win-lose-text">
+            <div id="win-lose-text" class="glass-10 no-border">
                 <p>Congrats!<br>
                 Player #2 won the game!</p>
-                <span>play again</span>
+                <span title="Ana (Frozen): - Do you wanna roll a dice, man?">play again</span>
             </div>
 
             <h1 id="title-text">
                 Play a game of dice for 
                 <span id="select-mode" title="select players: one / two">one</span>
             </h1>
-            
 
             <!-- first player section -->
             <div class="game-scene" player="1">
                 <div class="score-text" player="1">0</div>
-                <div class="dice-box">
-                    <div class="dice" dice-value="5"></div>
+                <div class="dice-box glass-10">
+                    <div class="dice"></div>
                 </div>
                 <button class="roll-dice">Roll dice!</button>
             </div>
@@ -43,27 +40,31 @@
             <!-- second player section -->
             <div class="game-scene" player="2">
                 <div class="score-text" player="2">0</div>
-                <div class="dice-box">
-                    <div class="dice" dice-value="5"></div>
+                <div class="dice-box glass-10">
+                    <div class="dice"></div>
                 </div>
                 <button class="roll-dice">Roll dice!</button>
             </div>
 
+            <!-- image to turn sound on/off -->
+            <div id="sound-control" title="sound on/off"></div>
+            
+
         </div>
 
-        <!-- 2do: congrats you won / player X won ~ exploding text, confety, stars ? -->
-        <!-- 2do: some kind of switch for player one / two player game -->
+        <!--x) 2do: congrats you won / player X won ~ exploding text, confety, stars ? -->
+        <!--x) 2do: some kind of switch for player one / two player game -->
+        <!--x) 2do: color the score value to show how close the payer is to winning -->
         <!-- 2do: frost glass panels -->
         <!-- 2do-maybe: dice roll sound -->
         <!-- 2do-maybe: svg dice faces animating from one to another -->
         <!-- 2do-maybe: the wheel from css-tricks, or similar -->
         <!-- 2do-maybe: the chasing border lights from deyvidas -->
-        <!-- 2do: color the score value to show how close the payer is to winning -->
-        <!-- 2do-maybe: you could have like a gauge filler to represent total winnings between games ? -->
-        <!-- 2do-maybe: you could spin th dice like a card using  -->
+        <!--x) 2do-maybe: you could have like a gauge filler to represent total winnings between games ? -->
+        <!-- 2do-maybe: you could spin th dice like a card using perspetive? -->
     </main>
 
-
+    
     <script src="app.js"></script>
 </body>
 </html>
