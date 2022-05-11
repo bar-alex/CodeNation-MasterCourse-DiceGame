@@ -3,8 +3,7 @@ A dice game project (1 and 2 players) for the master course week 3
 
 The project is live at https://candid-squirrel-2c6af4.netlify.app/
 
-I've tried out a bunch of stuff so I could learn them, CSS mainly but Javascript DOM manipulation too, 
-probably ended up over-complicating the thing 😅
+I've tried out a bunch of stuff so I could learn them, CSS mainly, Javascript DOM manipulation too.
 
 Here's some of the stuff I got working in this project: 
 
