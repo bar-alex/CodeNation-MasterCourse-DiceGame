@@ -15,6 +15,6 @@ Here's some of the stuff I got working in this project:
 * Score text with color filler effect on the text itself
 * Dice with sprite animation and some cubic-bezier based rotation thrown in to create a .. dice roll simulation
 
-+ Used JavaScript to bind on click/dbl-click, show/hide dom elements, enable/disable buttons, change styles, add/remove animations, play sounds, 
+* Used JavaScript to bind on click/dbl-click, show/hide dom elements, enable/disable buttons, change styles, add/remove animations, play sounds, 
 and the actual game logic.
 
